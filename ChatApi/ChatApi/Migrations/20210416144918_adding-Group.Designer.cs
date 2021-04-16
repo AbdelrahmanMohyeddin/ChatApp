@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210416010507_Create Project")]
-    partial class CreateProject
+    [Migration("20210416144918_adding-Group")]
+    partial class addingGroup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,6 +75,42 @@ namespace ChatApi.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("ChatApi.Entities.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("ChatApi.Entities.GroupUser", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupUser");
+                });
+
             modelBuilder.Entity("ChatApi.Entities.Account", b =>
                 {
                     b.OwnsMany("ChatApi.Entities.RefreshToken", "RefreshTokens", b1 =>
@@ -121,6 +157,82 @@ namespace ChatApi.Migrations
                         });
 
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("ChatApi.Entities.Group", b =>
+                {
+                    b.OwnsMany("ChatApi.Entities.Message", "Messages", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("GroupId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("SenderId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("Sent")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("Text")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Type")
+                                .HasColumnType("int");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("GroupId");
+
+                            b1.HasIndex("SenderId");
+
+                            b1.ToTable("Messages");
+
+                            b1.WithOwner("Group")
+                                .HasForeignKey("GroupId");
+
+                            b1.HasOne("ChatApi.Entities.Account", "Sender")
+                                .WithMany()
+                                .HasForeignKey("SenderId");
+
+                            b1.Navigation("Group");
+
+                            b1.Navigation("Sender");
+                        });
+
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("ChatApi.Entities.GroupUser", b =>
+                {
+                    b.HasOne("ChatApi.Entities.Group", "Group")
+                        .WithMany("GroupUsers")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChatApi.Entities.Account", "User")
+                        .WithMany("GroupUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ChatApi.Entities.Account", b =>
+                {
+                    b.Navigation("GroupUsers");
+                });
+
+            modelBuilder.Entity("ChatApi.Entities.Group", b =>
+                {
+                    b.Navigation("GroupUsers");
                 });
 #pragma warning restore 612, 618
         }

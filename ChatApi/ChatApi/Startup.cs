@@ -1,4 +1,5 @@
 using ChatApi.Helpers;
+using ChatApi.Hubs;
 using ChatApi.Middleware;
 using ChatApi.Services;
 using Microsoft.AspNetCore.Builder;
@@ -86,6 +87,7 @@ namespace ChatApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatsocket");
             });
         }
     }

@@ -1,0 +1,17 @@
+<h2 class="card-header">Group</h2>
+<div class="chat-body" id="chat-body">
+    <ul class="all-messages" id="messages">
+        <li class="my-message">hello</li>
+        <li class="foreign-message">hello guys</li>
+    </ul>
+</div>
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()" class="card-body" >
+    <div class="form-group" style="display: flex;flex-direction: row;">
+        <input type="text" formControlName="MessageText" class="form-control"/>
+        <button class="btn btn-primary">Send</button>
+    </div>
+</form>
+
+<div class="myDiv">
+    
+</div>

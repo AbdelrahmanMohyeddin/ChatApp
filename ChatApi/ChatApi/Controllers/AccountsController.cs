@@ -68,10 +68,10 @@ namespace ChatApi.Controllers
             return Ok(new { message = "Registration successful, please check your email for verification instructions" });
         }
 
-        [HttpPost("verify-email")]
-        public IActionResult VerifyEmail(VerifyEmailRequest model)
+        [HttpGet("verify-email")]
+        public IActionResult VerifyEmail(string Token)
         {
-            _accountService.VerifyEmail(model.Token);
+            _accountService.VerifyEmail(Token);
             return Ok(new { message = "Verification successful, you can now login" });
         }
 

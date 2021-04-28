@@ -12,7 +12,7 @@ namespace ChatApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MessengerController : ControllerBase
+    public class MessengerController : BaseController
     {
         public IHubContext<ChatHub> _hubContext;
 
@@ -23,10 +23,16 @@ namespace ChatApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult SendToGroup(MessageToGroupRequest msg)
+        public async Task<IActionResult> SendToGroup(MessageToGroupRequest msg)
         {
-            _hubContext.Clients.Group(msg.GroupName).SendAsync("ReceiveOnGroup", msg.UserName, msg.MessageText);
+            //await _hubContext.Groups.AddToGroupAsync(, msg.UserName);
+            //await _hubContext.Clients.Group(msg.UserName).SendAsync("ReceiveOnGroup", msg.UserName, msg.MessageText);
+            await _hubContext.Clients.All.SendAsync("ReceiveOnGroup",msg.UserName,msg.MessageText);
+            //_hubContext.Clients.Client().SendAsync("ReceiveOnGroup", msg.UserName, msg.MessageText);
             return Ok();
         }
+
+
+
     }
 }

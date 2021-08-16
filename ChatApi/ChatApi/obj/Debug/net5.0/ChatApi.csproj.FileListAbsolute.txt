@@ -11,7 +11,6 @@ C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Microsoft
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\obj\Debug\net5.0\ChatApi.csprojAssemblyReference.cache
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\obj\Debug\net5.0\ChatApi.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\obj\Debug\net5.0\ChatApi.AssemblyInfoInputs.cache
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\obj\Debug\net5.0\ChatApi.AssemblyInfo.cs
@@ -71,3 +70,8 @@ C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\runtimes\
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\libman.json
 C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\AME\Documents\GitHub\ChatApp\ChatApi\ChatApi\obj\Debug\net5.0\ChatApi.csprojAssemblyReference.cache

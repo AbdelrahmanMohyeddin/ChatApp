@@ -14,10 +14,9 @@ namespace ChatApi.Entities
         [Key]
         public int Id { get; set; }
         public string Text { get; set; }
-        public MsgType Type { get; set; }
         public DateTime Sent { get; set; }
         [JsonIgnore]
-        public Account Sender { get; set; }
+        public AppUser Sender { get; set; }
         [JsonIgnore]
         public Group Group { get;set; }
     }

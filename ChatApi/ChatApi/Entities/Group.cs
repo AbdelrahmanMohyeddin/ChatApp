@@ -15,6 +15,7 @@ namespace ChatApi.Entities
         public DateTime Created { get; set; }
         [JsonIgnore]
         public ICollection<Message> Messages { get; set; }
+        [JsonIgnore]
         public virtual ICollection<GroupUser> GroupUsers { get; set; }
 
     }

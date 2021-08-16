@@ -19,58 +19,59 @@ namespace ChatApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ChatApi.Entities.Account", b =>
+            modelBuilder.Entity("ChatApi.Entities.AppUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("AcceptTerms")
-                        .HasColumnType("bit");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PasswordReset")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ResetToken")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ResetTokenExpires")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("VerificationToken")
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Verified")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ChatApi.Entities.Group", b =>
@@ -102,59 +103,14 @@ namespace ChatApi.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("GroupId", "UserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
-                    b.ToTable("GroupUser");
-                });
-
-            modelBuilder.Entity("ChatApi.Entities.Account", b =>
-                {
-                    b.OwnsMany("ChatApi.Entities.RefreshToken", "RefreshTokens", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int>("AccountId")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("Created")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("CreatedByIp")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("Expires")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("ReplacedByToken")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("Revoked")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("RevokedByIp")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Token")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("AccountId");
-
-                            b1.ToTable("RefreshToken");
-
-                            b1.WithOwner("Account")
-                                .HasForeignKey("AccountId");
-
-                            b1.Navigation("Account");
-                        });
-
-                    b.Navigation("RefreshTokens");
+                    b.ToTable("groupUsers");
                 });
 
             modelBuilder.Entity("ChatApi.Entities.Group", b =>
@@ -169,17 +125,14 @@ namespace ChatApi.Migrations
                             b1.Property<int>("GroupId")
                                 .HasColumnType("int");
 
-                            b1.Property<int?>("SenderId")
-                                .HasColumnType("int");
+                            b1.Property<string>("SenderId")
+                                .HasColumnType("nvarchar(450)");
 
                             b1.Property<DateTime>("Sent")
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("Text")
                                 .HasColumnType("nvarchar(max)");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("int");
 
                             b1.HasKey("Id");
 
@@ -192,7 +145,7 @@ namespace ChatApi.Migrations
                             b1.WithOwner("Group")
                                 .HasForeignKey("GroupId");
 
-                            b1.HasOne("ChatApi.Entities.Account", "Sender")
+                            b1.HasOne("ChatApi.Entities.AppUser", "Sender")
                                 .WithMany()
                                 .HasForeignKey("SenderId");
 
@@ -212,20 +165,13 @@ namespace ChatApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ChatApi.Entities.Account", "User")
-                        .WithMany("GroupUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ChatApi.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Group");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ChatApi.Entities.Account", b =>
-                {
-                    b.Navigation("GroupUsers");
                 });
 
             modelBuilder.Entity("ChatApi.Entities.Group", b =>

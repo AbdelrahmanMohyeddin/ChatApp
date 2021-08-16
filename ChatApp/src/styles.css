@@ -20,3 +20,14 @@
     flex-direction:row-reverse;
     padding-right: 50px;
 }
+
+
+.chat {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.groups-list {
+    background-color:#eee;
+}

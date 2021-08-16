@@ -1,4 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { GroupService } from './../_services/group.service';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private groupServices: GroupService
     ) { }
 
     ngOnInit() {
@@ -54,5 +56,6 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 }
             });
+            
     }
 }

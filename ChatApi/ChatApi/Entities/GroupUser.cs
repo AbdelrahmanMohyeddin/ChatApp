@@ -15,7 +15,7 @@ namespace ChatApi.Entities
         [JsonIgnore]
         public virtual Group Group { get; set; }
         [JsonIgnore]
-        public virtual Account User { get; set; }
+        public virtual AppUser User { get; set; }
         public Role Role { get; set; }
     }
 }

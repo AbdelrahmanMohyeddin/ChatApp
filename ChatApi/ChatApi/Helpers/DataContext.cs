@@ -18,9 +18,10 @@ namespace ChatApi.Helpers
         {
             
         }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AppUser> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<GroupUser> groupUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ChatApi",
+    "\\ChatApi\\Controllers",
+    "\\ChatApi\\Hubs",
+    "\\ChatApi\\Models",
+    "\\ChatApi\\Services"
+  ],
+  "SelectedNode": "\\ChatApi\\Controllers\\MessengerController.cs",
+  "PreviewInSolutionExplorer": false
+}

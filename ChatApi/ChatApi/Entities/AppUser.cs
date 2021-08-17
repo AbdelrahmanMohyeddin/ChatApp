@@ -8,6 +8,9 @@ namespace ChatApi.Entities
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
+        public string FullName { get; set; }
+        public string Avatar { get; set; }
+        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

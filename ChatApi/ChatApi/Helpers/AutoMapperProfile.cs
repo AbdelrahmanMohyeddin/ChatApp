@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChatApi.Dtos;
 using ChatApi.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ChatApi.Helpers
         // mappings between model and entity objects
         public AutoMapperProfile()
         {
-            
+            CreateMap<AppUser, UserDto>();
         }
     }
 }

@@ -3,6 +3,7 @@ using ChatApi.Entities;
 using ChatApi.Helpers;
 using ChatApi.Hubs;
 using ChatApi.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,14 +41,18 @@ namespace ChatApi
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("defaultString"));
             });
-            services.AddCors();
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSignalR();
 
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            services.AddSignalR();
+            services.AddControllers();
+            services.AddHttpContextAccessor();
+            //services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+            //services.AddControllers().AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //);
+
 
             var builder = services.AddIdentityCore<AppUser>();
             builder = new IdentityBuilder(builder.UserType, services);
@@ -68,6 +73,9 @@ namespace ChatApi
 
                     };
                 });
+            
+
+            
 
             services.AddCors(opt =>
             {
@@ -83,9 +91,8 @@ namespace ChatApi
 
             // configure DI for application services
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IConnectionService, ConnectionService>();
 
-            services.AddControllers();
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChatApi", Version = "v1" });
@@ -113,11 +120,12 @@ namespace ChatApi
 
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chatsocket");
+                endpoints.MapHub<ConnectionService>("/chatApp");
             });
         }
     }

@@ -25,7 +25,7 @@ namespace ChatApi.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email,appUser.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName,appUser.DisplayName)
+                new Claim(JwtRegisteredClaimNames.GivenName,appUser.FullName)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);

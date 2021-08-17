@@ -1,5 +1,6 @@
 ﻿using AutoMapper.Configuration;
 using ChatApi.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ChatApi.Helpers
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
 
         //private readonly IConfiguration Configuration;
@@ -18,18 +19,13 @@ namespace ChatApi.Helpers
         {
             
         }
-        public DbSet<AppUser> Users { get; set; }
-        public DbSet<Group> Groups { get; set; }
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<GroupUser> groupUsers { get; set; }
+        public DbSet<AppUser> users { get; set; }
+        public DbSet<Message> messages { get; set; }
+        public DbSet<Room> rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<GroupUser>().HasKey(
-                k => new { k.GroupId, k.UserId }
-                );
         }
 
     }

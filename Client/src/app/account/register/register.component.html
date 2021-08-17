@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-center">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-signin col-4">
+        <div class="text-center mb-4">
+           <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+        </div>
+
+        <div class="form-label-group">
+            <input formControlName="email" type="text" id="inputDisplayName" class="form-control" placeholder="DisplayName" required="">
+            <label for="inputDisplayName">UserName</label>
+        </div>
+      
+        <div class="form-label-group">
+          <input formControlName="userName" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="on">
+          <label for="inputEmail">Email address</label>
+        </div>
+      
+        <div class="form-label-group">
+          <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+          <label for="inputPassword">Password</label>
+        </div>
+      
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+</div>

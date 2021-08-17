@@ -19,17 +19,24 @@ namespace ChatApi.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        private readonly IConnectionService _connectionService;
+        private readonly IHttpContextAccessor _httpContext;
 
         public AccountsController(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ITokenService tokenService,
-            IMapper map)
+            IMapper map,
+            IConnectionService connectionService,
+            IHttpContextAccessor HttpContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _mapper = map;
+            _connectionService = connectionService;
+            _httpContext = HttpContext;
         }
+
 
 
         [HttpPost("login")]
@@ -41,9 +48,10 @@ namespace ChatApi.Controllers
             if (!result.Succeeded) return Unauthorized("Not Authorized");
             return new UserDto
             {
-                DisplayName = user.DisplayName,
-                Token = _tokenService.CreateToken(user),
-                Email = user.Email
+                Username = user.UserName,
+                Avatar = user.Avatar,
+                FullName = user.FullName,
+                Token = _tokenService.CreateToken(user)
             };
         }
 
@@ -52,21 +60,29 @@ namespace ChatApi.Controllers
         {
             var user = new AppUser
             {
-                DisplayName = registerData.DisplayName,
+                FullName = registerData.FullName,
+                UserName = registerData.Email,
                 Email = registerData.Email,
-                UserName = registerData.Email
+               
             };
 
             var result = await _userManager.CreateAsync(user, registerData.Password);
             if (!result.Succeeded) return BadRequest("Not Registered,Please Repeate again!");
             return new UserDto
             {
-                DisplayName = user.DisplayName,
+                FullName = user.FullName,
                 Token = _tokenService.CreateToken(user),
-                Email = user.Email
+                Avatar = user.Avatar,
+                Username = user.UserName
             };
         }
 
+        [HttpGet("addingConnection")]
+        public IActionResult AddingConnection([FromQuery] string connectionId)
+        {
+            _connectionService.AddConnection(HttpContext.User, connectionId);
+            return Ok();
+        }
 
         [HttpGet]
         public async Task<ActionResult<UserDto>> CurrentUser()
@@ -75,9 +91,10 @@ namespace ChatApi.Controllers
             if (user == null) return Unauthorized("Sorry UnAuthorized");
             return new UserDto
             {
-                DisplayName = user.DisplayName,
+                FullName = user.FullName,
                 Token = _tokenService.CreateToken(user),
-                Email = user.Email
+                Avatar = user.Avatar,
+                Username = user.UserName
             };
         }
 

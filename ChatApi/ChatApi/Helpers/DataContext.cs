@@ -20,12 +20,17 @@ namespace ChatApi.Helpers
             
         }
         public DbSet<AppUser> users { get; set; }
-        public DbSet<Message> messages { get; set; }
-        public DbSet<Room> rooms { get; set; }
+        public DbSet<UserMessages> privateMessages { get; set; }
+        public DbSet<Group> groups { get; set; }
+        public DbSet<GroupMessages> groupMessages { get; set; }
+        public DbSet<UserGroup> userGroups { get; set; }
+        public DbSet<PrivateChat> privateChats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserGroup>().HasKey(sc => new { sc.AppUserId, sc.GroupId });
+
         }
 
     }

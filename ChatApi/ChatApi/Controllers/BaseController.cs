@@ -13,6 +13,5 @@ namespace ChatApi.Controllers
     [Route("api/[controller]")]
     public abstract class BaseController : ControllerBase
     {
-
     }
 }

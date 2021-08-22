@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 namespace ChatApi.Entities
 {
-    public class Message
+    public class UserMessages
     {
         public int Id { get; set; }
         public string Content { get; set; }
-        public DateTime Timestamp { get; set; }
         public AppUser FromUser { get; set; }
-        public int ToRoomId { get; set; }
-        public Room ToRoom { get; set; }
+        public DateTime Timestamp { get; set; }
+        public PrivateChat PrivateChat { get; set; }
     }
 }

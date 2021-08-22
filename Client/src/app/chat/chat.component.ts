@@ -1,5 +1,6 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MessageDto } from './../Dtos/MessageDto';
 import { Component, OnInit } from '@angular/core';
-import { MessageDto } from '../Dtos/MessageDto';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -8,29 +9,37 @@ import { ChatService } from '../services/chat.service';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  
-  constructor(private chatService: ChatService) {}
+  myForm:FormGroup = new FormGroup({});
+  constructor(private chatService: ChatService) {
+    this.myForm = new FormGroup({
+      content : new FormControl('',Validators.required),
+      groupName : new FormControl('',Validators.required)
+    });
+  }
 
   ngOnInit(): void {
-    this.chatService.retrieveMappedObject().subscribe( (receivedObj: MessageDto) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
-                                                     
+    this.chatService.retrieveMappedObject().subscribe( 
+      (receivedObj: MessageDto) => {
+         this.addToInbox(receivedObj);
+      }
+    );                                                 
   }
 
   public msgDto: MessageDto = new MessageDto();
   msgInboxArray: MessageDto[] = [];
 
-  send(): void {
-    if(this.msgDto) {
-      if(this.msgDto.user.length == 0 || this.msgDto.user.length == 0){
-        window.alert("Both fields are required.");
-        return;
-      } else {
-        this.chatService.broadcastMessage(this.msgDto).subscribe(
-          data => console.log(data)
-        );
-      }
-    }
-  }
+  // send(): void {
+  //   if(this.msgDto) {
+  //     if(this.msgDto.user.length == 0 || this.msgDto.user.length == 0){
+  //       window.alert("Both fields are required.");
+  //       return;
+  //     } else {
+  //       this.chatService.broadcastMessage(this.msgDto).subscribe(
+  //         data => console.log(data)
+  //       );
+  //     }
+  //   }
+  // }
 
   addToInbox(obj: MessageDto) {
     let newObj = new MessageDto();
@@ -40,8 +49,15 @@ export class ChatComponent implements OnInit {
 
   }
 
-  gettCuurentUser(){
-    this.chatService.loadCurrentUser().subscribe();
+  public SendToGroup(){
+    console.log(this.myForm.value);
+    this.chatService.sendMessageToGroup(this.myForm.value).subscribe(
+      () => {
+        console.log("Message Sent");
+      },err => {
+        console.log(err);
+      }
+    );
   }
 
 }

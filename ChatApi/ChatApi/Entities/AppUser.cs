@@ -10,7 +10,7 @@ namespace ChatApi.Entities
     {
         public string FullName { get; set; }
         public string Avatar { get; set; }
-        public ICollection<Room> Rooms { get; set; }
-        public ICollection<Message> Messages { get; set; }
+        public ICollection<UserGroup> Groups { get; set; }
+        public ICollection<UserMessages> PrivateMessages { get; set; }
     }
 }

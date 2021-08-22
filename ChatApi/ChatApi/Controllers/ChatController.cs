@@ -3,6 +3,7 @@ using ChatApi.Dtos;
 using ChatApi.Helpers;
 using ChatApi.Hubs;
 using ChatApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ChatApi.Controllers
 {
-    
+    [Authorize]
     public class ChatController : BaseController
     {
         
@@ -32,6 +33,19 @@ namespace ChatApi.Controllers
             return Ok();
         }
 
+        [HttpPost("sendToGroup")]
+        public IActionResult SendToGroup(MessageToGroupDto msg)
+        {
+            _connectionService.MessageToGroup(HttpContext.User, msg);
+            return Ok();
+        }
+
+        [HttpGet("SignedUser")]
+        public IActionResult SignedUser()
+        {
+            var c = HttpContext.User;
+            return Ok();
+        }
 
         [HttpGet("addingConnection")]
         public IActionResult AddingConnection([FromQuery] string connectionId)
